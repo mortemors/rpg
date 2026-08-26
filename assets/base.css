@@ -81,6 +81,10 @@ a{color:var(--glow);text-underline-offset:3px}
 /* ---------- Corpo do diário (página de entrada) ---------- */
 .entry{max-width:var(--measure);margin:0 auto;padding:clamp(2.5rem,7vw,5rem) var(--gutter) 2rem}
 .entry p{margin:0 0 1.5rem}
+/* subtitulo de secao dentro do artigo e dentro das camadas.
+   Estava sem regra: as paginas usam h2.sub em .entry, e so .camada h2.sub existia. */
+.entry h2.sub,.camada h2.sub{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;
+  font-weight:400;font-style:italic;line-height:1.2;color:var(--bone-dim);margin:2.6rem 0 .4rem}
 .entry p:first-of-type::first-letter{
   font-family:"Fraunces",Georgia,serif;font-weight:900;
   float:left;font-size:4.4rem;line-height:.78;padding:.32rem .6rem 0 0;
@@ -123,3 +127,30 @@ figcaption .n{color:var(--glow)}
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes fade{from{opacity:0}to{opacity:1}}
 }
+
+/* ---------- Camadas do episodio (cronica / documento / bastidores) ----------
+   Cada camada e uma PAGINA propria desde 26/08/2026; estas regras vinham
+   duplicadas no <style> de cada pagina. */
+.camada{max-width:var(--measure);margin:0 auto;padding:0 var(--gutter)}
+.camada-topo{margin-top:2.5rem}
+.camada .rotulo{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--glow);margin:0 0 .8rem}
+.camada h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:2rem;
+  line-height:1.15;margin:0 0 2rem;color:#f3eedd}
+.camada p{margin:0 0 1.5rem}
+.documento{background:var(--ink-2);border-left:2px solid var(--glow);
+  padding:2.4rem clamp(1.2rem,3vw,2.2rem);border-radius:3px}
+.documento p:first-of-type::first-letter{float:none;font-size:inherit;padding:0;color:inherit;
+  font-family:inherit;font-weight:inherit;text-shadow:none}
+.sign-sub{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
+  letter-spacing:.06em;color:var(--bone-dim);margin:.3rem 0 0}
+
+/* ---------- Navegacao entre as camadas ---------- */
+.camadas{max-width:var(--measure);margin:0 auto;padding:1.8rem var(--gutter) .4rem;
+  display:flex;flex-wrap:wrap;gap:.5rem}
+.camadas-fim{border-top:1px solid var(--rule);margin-top:3.5rem;padding-top:2.4rem}
+.camadas a,.camadas span{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.74rem;
+  letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1rem;border-radius:999px;
+  border:1px solid var(--rule);color:var(--bone-dim);text-decoration:none;line-height:1}
+.camadas a:hover,.camadas a:focus-visible{border-color:var(--glow);color:var(--glow)}
+.camadas .atual{border-color:var(--glow);background:var(--glow-soft);color:var(--glow)}
