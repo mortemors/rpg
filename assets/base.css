@@ -1,16 +1,24 @@
 /* ============================================================
-   Crônicas — tema compartilhado
-   Usado pelo hub (/index.html) e pelas páginas de campanha (/noar/...)
+   As histórias que não terminaram — tema compartilhado
+   Usado pela home, pelos índices de campanha e pelas páginas de episódio.
+
+   Tema CANDEEIRO, escolhido pelo dono em 26/08/2026 para tirar do site a
+   aparência de página gerada. O que saiu, e por quê:
+     - acento mint/teal sobre preto azulado  -> âmbar de tocha sobre preto quente
+       (a mesma luz que existe dentro das ilustrações)
+     - rótulos em monoespaçada MAIÚSCULA com letter-spacing largo -> versalete serifado
+     - abas e cartões em pílula/caixa com elevação -> fio e sublinhado
+     - brilho radial no hero e capitular colorida com sombra -> nada disso
    ============================================================ */
 
 :root{
-  --ink:#0b0e13;          /* fundo: tinta quase preta */
-  --ink-2:#11161e;        /* painéis/figuras */
-  --bone:#e9e2d0;         /* texto principal, cor de osso */
-  --bone-dim:#a59e8d;     /* secundário/legendas */
-  --glow:#74dcb4;         /* acento arcano: brilho frio teal-verde */
-  --glow-soft:rgba(116,220,180,.16);
-  --rule:#222936;         /* fios/hairlines */
+  --ink:#14110d;          /* fundo: preto quente, de fuligem */
+  --ink-2:#1c1813;        /* painéis e figuras */
+  --bone:#e8dfcc;         /* texto principal */
+  --bone-dim:#9c9080;     /* secundário, legendas */
+  --glow:#d68b3c;         /* âmbar de tocha */
+  --glow-soft:rgba(214,139,60,.14);
+  --rule:#2e281f;         /* fios */
   --measure:60rem;
   --gutter:clamp(1.2rem,4vw,1.6rem);
 }
@@ -20,106 +28,127 @@ body{
   margin:0;background:var(--ink);color:var(--bone);
   font-family:"Spectral",Georgia,serif;font-size:1.18rem;line-height:1.78;font-weight:400;
 }
-::selection{background:var(--glow-soft);color:#fff}
+::selection{background:var(--glow-soft);color:var(--bone)}
 a{color:var(--glow);text-underline-offset:3px}
-:focus-visible{outline:2px solid var(--glow);outline-offset:3px;border-radius:2px}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
 
-/* ---------- Hero / masthead (hub e campanha) ---------- */
+/* rótulos: versalete serifado, nunca monoespaçada maiúscula */
+.eyebrow,.rotulo,.card .status,.meta,.sign-sub,.fig-fallback span,figcaption,.colophon p{
+  font-family:"Spectral",Georgia,serif;font-variant:small-caps;
+  letter-spacing:.02em;text-transform:none;
+}
+
+/* ---------- Hero / masthead ---------- */
 .hero{
-  position:relative;min-height:52vh;display:flex;justify-content:center;align-items:flex-end;
-  padding-block:clamp(2rem,6vw,4rem);overflow:hidden;
+  position:relative;display:flex;justify-content:center;align-items:flex-end;
+  padding-block:clamp(2.5rem,7vw,4.5rem);overflow:hidden;
   border-bottom:1px solid var(--rule);
 }
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:.5;filter:saturate(.9) contrast(1.02)}
-.hero::before{ /* véu de tinta + luar acima das nuvens */
+/* só reserva altura de capa quando existe capa; a home não tem e ficava com um vão morto */
+.hero:has(> .hero-img){min-height:58vh}
+.hero-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 72%;   /* sobe a imagem para mostrar o chão da cena, não o teto */
+  opacity:.62;filter:saturate(.95) contrast(1.02);
+}
+.hero::before{ /* véu de tinta, sem brilho colorido */
   content:"";position:absolute;inset:0;z-index:1;
-  background:
-    radial-gradient(120% 80% at 50% -10%, var(--glow-soft), transparent 55%),
-    linear-gradient(180deg, rgba(11,14,19,.35) 0%, rgba(11,14,19,.7) 55%, var(--ink) 100%);
+  background:linear-gradient(180deg,
+    rgba(20,17,13,.15) 0%, rgba(20,17,13,.40) 42%, rgba(20,17,13,.86) 78%, var(--ink) 100%);
 }
-.masthead{position:relative;z-index:2;width:100%;max-width:var(--measure);margin-inline:auto;padding-inline:var(--gutter)}
-.eyebrow{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--glow);
-  margin:0 0 1.1rem;font-weight:500;
-}
+.masthead{position:relative;z-index:2;width:100%;max-width:var(--measure);
+  margin-inline:auto;padding-inline:var(--gutter)}
+.eyebrow{font-size:.98rem;color:var(--glow);margin:0 0 .9rem}
 .eyebrow a{color:inherit;text-decoration:none}
 .eyebrow a:hover{text-decoration:underline}
 .hero h1{
-  font-family:"Fraunces",Georgia,serif;font-weight:900;
-  font-size:clamp(2.4rem,7.5vw,4.4rem);line-height:1;margin:0;
-  letter-spacing:-.01em;color:#f3eedd;
-  text-shadow:0 1px 40px rgba(116,220,180,.16);
+  font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;
+  font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.02;margin:0;
+  letter-spacing:.005em;color:var(--bone);
 }
-.meta{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.8rem;
-  color:var(--bone-dim);margin:1.4rem 0 0;letter-spacing:.04em;line-height:1.7;
-}
-.meta b{color:var(--bone);font-weight:500}
+.meta{font-size:.98rem;color:var(--bone-dim);margin:1.2rem 0 0;line-height:1.65}
+.meta b{color:var(--bone);font-weight:600}
 
-/* ---------- Hub (landing de campanhas) ---------- */
+/* ---------- Índices (home e campanha) ---------- */
 .hub{max-width:var(--measure);margin:0 auto;padding:clamp(2rem,6vw,3.5rem) var(--gutter) 2rem}
-.hub .lead{color:var(--bone-dim);margin:0 0 2.4rem;font-size:1.05rem}
-.cards{display:grid;gap:1.1rem}
+.hub .lead{color:var(--bone-dim);margin:0 0 2.6rem;font-size:1.08rem}
+.cards{display:grid;gap:2rem}
 .card{
   display:block;text-decoration:none;color:inherit;
-  border:1px solid var(--rule);border-radius:5px;padding:1.4rem 1.5rem;
-  background:linear-gradient(180deg, var(--ink-2), var(--ink));
-  transition:border-color .2s, transform .2s, box-shadow .2s;
+  border-left:2px solid var(--rule);padding:.2rem 0 .2rem 1.7rem;
+  transition:border-color .2s;
 }
-.card:hover{border-color:var(--glow);transform:translateY(-2px);
-  box-shadow:0 8px 30px rgba(0,0,0,.4), 0 0 0 1px var(--glow-soft)}
-.card h2{font-family:"Fraunces",Georgia,serif;font-weight:600;
-  font-size:1.7rem;margin:0 0 .4rem;color:#f3eedd}
-.card .blurb{color:var(--bone-dim);font-size:1rem;line-height:1.6;margin:0 0 .9rem}
-.card .status{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--glow)}
-.card.soon{opacity:.55;pointer-events:none}
+.card:hover{border-left-color:var(--glow)}
+.card h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
+  font-size:1.85rem;line-height:1.1;margin:0 0 .5rem;color:var(--bone)}
+.card:hover h2{color:var(--glow)}
+.card .blurb{color:var(--bone-dim);font-size:1.02rem;line-height:1.65;margin:0 0 .7rem}
+.card .status{font-size:.92rem;color:var(--glow)}
+.card.soon{opacity:.5;pointer-events:none}
 .card.soon .status{color:var(--bone-dim)}
 
-/* ---------- Corpo do diário (página de entrada) ---------- */
-.entry{max-width:var(--measure);margin:0 auto;padding:clamp(2.5rem,7vw,5rem) var(--gutter) 2rem}
-.entry p{margin:0 0 1.5rem}
-/* subtitulo de secao dentro do artigo e dentro das camadas.
-   Estava sem regra: as paginas usam h2.sub em .entry, e so .camada h2.sub existia. */
-.entry h2.sub,.camada h2.sub{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;
-  font-weight:400;font-style:italic;line-height:1.2;color:var(--bone-dim);margin:2.6rem 0 .4rem}
-.entry p:first-of-type::first-letter{
-  font-family:"Fraunces",Georgia,serif;font-weight:900;
-  float:left;font-size:4.4rem;line-height:.78;padding:.32rem .6rem 0 0;
-  color:var(--glow);text-shadow:0 0 26px rgba(116,220,180,.25);
+/* ---------- Corpo do texto ---------- */
+.entry{max-width:var(--measure);margin:0 auto;padding:clamp(2rem,5vw,3.4rem) var(--gutter) 2rem}
+.entry p,.camada p{margin:0 0 1.5rem}
+.entry h2.sub,.camada h2.sub{
+  font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-style:normal;
+  font-size:1.6rem;line-height:1.2;color:var(--bone);margin:2.9rem 0 .9rem;
 }
-.entry em{font-style:italic;color:#f1ead8}
+.entry h2.sub::before,.camada h2.sub::before{
+  content:"";display:block;width:2.6rem;border-top:1px solid var(--rule);margin:0 0 1rem;
+}
+.entry p:first-of-type::first-letter{
+  font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;color:var(--bone);
+  float:left;font-size:4.2rem;line-height:.8;padding:.3rem .55rem 0 0;
+}
+.entry em,.camada em{font-style:italic;color:#f4ecda}
 
-/* ---------- Figuras / slots de imagem ---------- */
-figure.fig{margin:2.6rem 0;}
-.fig-img{display:block;width:100%;height:auto;border-radius:3px;border:1px solid var(--rule)}
+/* ---------- Camadas do episódio ---------- */
+.camada{max-width:var(--measure);margin:0 auto;padding:0 var(--gutter)}
+.camada-topo{margin-top:2rem}
+.camada .rotulo{font-size:.98rem;color:var(--glow);margin:0 0 .5rem}
+.camada h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:2.2rem;
+  line-height:1.1;margin:0 0 1.8rem;color:var(--bone)}
+.documento{background:var(--ink-2);border-left:1px solid var(--rule);
+  padding:2.2rem clamp(1.2rem,3vw,2.4rem)}
+.documento p:first-of-type::first-letter{float:none;font-size:inherit;padding:0;
+  color:inherit;font-family:inherit;font-weight:inherit}
+
+/* ---------- Navegação entre as camadas ---------- */
+.camadas{max-width:var(--measure);margin:0 auto;padding:1.8rem var(--gutter) .6rem;
+  display:flex;flex-wrap:wrap;gap:0}
+.camadas-fim{border-top:1px solid var(--rule);margin-top:3.5rem;padding-top:2.2rem}
+.camadas a,.camadas span{
+  font-family:"Spectral",Georgia,serif;font-variant:small-caps;font-size:1.02rem;
+  letter-spacing:.02em;color:var(--bone-dim);text-decoration:none;
+  padding:.15rem 0;margin-right:2rem;border-bottom:1px solid transparent;
+}
+.camadas a:hover,.camadas a:focus-visible{color:var(--bone);border-bottom-color:var(--rule)}
+.camadas .atual{color:var(--glow);border-bottom-color:var(--glow)}
+
+/* ---------- Figuras ---------- */
+figure.fig{margin:2.8rem 0}
+.fig-img{display:block;width:100%;height:auto;border:1px solid var(--rule)}
 .fig-fallback{
   display:none;aspect-ratio:3/2;width:100%;
   flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
-  background:
-    radial-gradient(90% 70% at 50% 30%, var(--glow-soft), transparent 70%),
-    var(--ink-2);
-  border:1px dashed var(--rule);border-radius:3px;text-align:center;padding:1.5rem;
+  background:var(--ink-2);border:1px dashed var(--rule);text-align:center;padding:1.5rem;
 }
-.fig-fallback span{font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.82rem;letter-spacing:.06em;color:var(--bone-dim)}
-.fig-fallback span:first-child{color:var(--glow);text-transform:lowercase}
-.fig-fallback-hint{opacity:.7;font-size:.72rem !important}
-figcaption{font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.78rem;letter-spacing:.04em;color:var(--bone-dim);margin-top:.7rem;text-align:left}
+.fig-fallback span{font-size:1rem;color:var(--bone-dim)}
+.fig-fallback span:first-child{color:var(--glow)}
+.fig-fallback-hint{opacity:.75;font-size:.86rem}
+figcaption{font-size:.94rem;color:var(--bone-dim);margin-top:.8rem;text-align:left}
 figcaption .n{color:var(--glow)}
 
-/* ---------- Assinatura / rodapé ---------- */
-.sign{font-family:"Fraunces",Georgia,serif;font-style:italic;
-  font-size:1.5rem;color:#f1ead8;margin:2.5rem 0 0}
+/* ---------- Assinatura e rodapé ---------- */
+.sign{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;
+  font-size:1.6rem;color:var(--bone);margin:2.6rem 0 0}
+.sign-sub{font-size:.94rem;color:var(--bone-dim);margin:.2rem 0 0}
 .colophon{max-width:var(--measure);margin:0 auto;
   padding:2.5rem var(--gutter) 4rem;border-top:1px solid var(--rule)}
-.colophon p{font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.76rem;letter-spacing:.04em;color:var(--bone-dim);line-height:1.9;margin:.2rem 0}
+.colophon p{font-size:.94rem;color:var(--bone-dim);line-height:1.85;margin:.2rem 0}
 
-/* ---------- Movimento (suave, respeitando preferências) ---------- */
+/* ---------- Movimento ---------- */
 @media (prefers-reduced-motion: no-preference){
   .masthead,.entry>*{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
   .entry>*{animation-delay:.05s}
@@ -127,30 +156,3 @@ figcaption .n{color:var(--glow)}
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes fade{from{opacity:0}to{opacity:1}}
 }
-
-/* ---------- Camadas do episodio (cronica / documento / bastidores) ----------
-   Cada camada e uma PAGINA propria desde 26/08/2026; estas regras vinham
-   duplicadas no <style> de cada pagina. */
-.camada{max-width:var(--measure);margin:0 auto;padding:0 var(--gutter)}
-.camada-topo{margin-top:2.5rem}
-.camada .rotulo{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--glow);margin:0 0 .8rem}
-.camada h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:2rem;
-  line-height:1.15;margin:0 0 2rem;color:#f3eedd}
-.camada p{margin:0 0 1.5rem}
-.documento{background:var(--ink-2);border-left:2px solid var(--glow);
-  padding:2.4rem clamp(1.2rem,3vw,2.2rem);border-radius:3px}
-.documento p:first-of-type::first-letter{float:none;font-size:inherit;padding:0;color:inherit;
-  font-family:inherit;font-weight:inherit;text-shadow:none}
-.sign-sub{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
-  letter-spacing:.06em;color:var(--bone-dim);margin:.3rem 0 0}
-
-/* ---------- Navegacao entre as camadas ---------- */
-.camadas{max-width:var(--measure);margin:0 auto;padding:1.8rem var(--gutter) .4rem;
-  display:flex;flex-wrap:wrap;gap:.5rem}
-.camadas-fim{border-top:1px solid var(--rule);margin-top:3.5rem;padding-top:2.4rem}
-.camadas a,.camadas span{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.74rem;
-  letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1rem;border-radius:999px;
-  border:1px solid var(--rule);color:var(--bone-dim);text-decoration:none;line-height:1}
-.camadas a:hover,.camadas a:focus-visible{border-color:var(--glow);color:var(--glow)}
-.camadas .atual{border-color:var(--glow);background:var(--glow-soft);color:var(--glow)}
